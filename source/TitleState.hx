@@ -210,6 +210,7 @@ class TitleState extends MusicBeatState
 				FlxTransitionableState.skipNextTransIn = true;
 				FlxTransitionableState.skipNextTransOut = true;
 				MusicBeatState.switchState(new InitialState());
+			}
 		} else {
 			if (initialized)
 				startIntro();
