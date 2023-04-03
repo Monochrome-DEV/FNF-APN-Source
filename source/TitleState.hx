@@ -127,7 +127,7 @@ class TitleState extends MusicBeatState
 		swagShader = new ColorSwap();
 		super.create();
 
-		FlxG.save.bind('funkin', CoolUtil.getSavePath());
+		FlxG.save.bind('FNF-APN', CoolUtil.getSavePath());
 
 		ClientPrefs.loadPrefs();
 
@@ -205,6 +205,11 @@ class TitleState extends MusicBeatState
 			FlxTransitionableState.skipNextTransIn = true;
 			FlxTransitionableState.skipNextTransOut = true;
 			MusicBeatState.switchState(new FlashingState());
+		} else {
+			if(FlxG.save.data.oneTimed == false) {
+				FlxTransitionableState.skipNextTransIn = true;
+				FlxTransitionableState.skipNextTransOut = true;
+				MusicBeatState.switchState(new InitialState());
 		} else {
 			if (initialized)
 				startIntro();
