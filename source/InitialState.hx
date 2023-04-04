@@ -71,27 +71,52 @@ class InitialState extends MusicBeatState
 				if(pageNum == 0) {
 					FlxG.sound.play(Paths.sound('paper'));
 					pageNum = 1;
-					warnText.text = "This mod was inspired by\nIMSCARED: A Pixelated nightmare\ncreated by MyMadnessWorks\nIt is recommended that You play it \nbefore playing this mod\nIt is available for download on Steam\nPRESS E TO PROCEED";
+					warnText.text = "This mod was inspired by\n
+					IMSCARED: A Pixelated nightmare\n
+					created by MyMadnessWorks\n
+					It is recommended that You play it \n
+					before playing this mod\n
+					It is available for download on Steam\n
+					PRESS E TO PROCEED";
 					warnText.screenCenter(Y);
 				} else if(pageNum == 1) {
 					FlxG.sound.play(Paths.sound('paper'));
 					pageNum = 2;
-					warnText.text = "To work correctly, Imscared created\na folder on your desktop just for you.\nPlease, make sure the folder is always there.\nIf the folder does not exist, there's a problem\nand maybe you'll have to manually create it.\nPRESS E TO PROCEED";
+					warnText.text = "To work correctly, Imscared created\n
+					a folder on your desktop just for you.\n
+					Please, make sure the folder is always there.\n
+					If the folder does not exist, there's a problem\n
+					and maybe you'll have to manually create it.\n
+					PRESS E TO PROCEED";
 					warnText.screenCenter(Y);
 				} else if(pageNum == 2) {
 					FlxG.sound.play(Paths.sound('paper'));
 					pageNum = 3;
-					warnText.text = "This folder on your desktop\nIMSCARED > FNF\nis required for progression\nPress M to open this folder at any time (this can be rebinded in the settings)\nDo not play on a browser. You can download the mod \nby visiting our GameJolt page\nPRESS E TO PROCEED";
+					warnText.text = "This folder on your desktop\n
+					IMSCARED > FNF\nis required for progression\n
+					Press M to open this folder at any time (this can be rebinded in the settings)\n
+					Do not play on a browser. You can download the mod \n
+					by visiting our GameJolt page\n
+					PRESS E TO PROCEED";
 					warnText.screenCenter(Y);
 				} else if(pageNum == 3) {
 					FlxG.sound.play(Paths.sound('paper'));
 					pageNum = 4;
-					warnText.text = "Before starting, I need You to know that\nthis mod will try to deceive You\nas many times as it can.\nIf something strange happens\nor the game crashes, please,\nfeel free to check the desktop folder\nfor anomalies.\nPRESS E TO PROCEED";
+					warnText.text = "Before starting, I need You to know that\n
+					this mod will try to deceive You\nas many times as it can.\n
+					If something strange happens\n
+					or the game crashes, please,\n
+					feel free to check the desktop folder\n
+					for anomalies.\n
+					PRESS E TO PROCEED";
 					warnText.screenCenter(Y);
 				} else if(pageNum == 4) {
 					FlxG.sound.play(Paths.sound('paper'));
 					pageNum = 5;
-					warnText.text = "I'm really sorry.\nThis wasn't meant to happen.\nI didn't want things to go like this.\nPRESS E TO PROCEED";
+					warnText.text = "I'm really sorry.\n
+					This wasn't meant to happen.\n
+					I didn't want things to go like this.\n
+					PRESS E TO PROCEED";
 					warnText.screenCenter(Y);
 				} else if(pageNum == 5) {
 					FlxG.sound.play(Paths.sound('paper'));
@@ -100,10 +125,12 @@ class InitialState extends MusicBeatState
 					warnText.screenCenter(Y);
 					ClientPrefs.oneTimed = true;
 					ClientPrefs.saveSettings();
-					FlxTween.tween(warnText, {alpha: 0}, 1, {
-						onComplete: function (twn:FlxTween) {
-							MusicBeatState.switchState(new TitleState());
-						}
+					new FlxTimer().start(1, function (tmr:FlxTimer) {
+						FlxTween.tween(warnText, {alpha: 0}, 1, {
+							onComplete: function (twn:FlxTween) {
+								MusicBeatState.switchState(new TitleState());
+							}
+						});
 					});
 				}
 			} else {
