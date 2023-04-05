@@ -7,6 +7,7 @@ import flixel.graphics.FlxGraphic;
 import Controls;
 
 class ClientPrefs {
+	public static var oneTimed:Bool = false;
 	public static var downScroll:Bool = false;
 	public static var middleScroll:Bool = false;
 	public static var opponentStrums:Bool = true;
@@ -83,6 +84,9 @@ class ClientPrefs {
 		'volume_up'		=> [NUMPADPLUS, PLUS],
 		'volume_down'	=> [NUMPADMINUS, MINUS],
 		
+		'init_proceed'	=> [E, NONE],
+		'folder_open'	=> [M, NONE],
+
 		'debug_1'		=> [SEVEN, NONE],
 		'debug_2'		=> [EIGHT, NONE]
 	];
@@ -94,6 +98,7 @@ class ClientPrefs {
 	}
 
 	public static function saveSettings() {
+		FlxG.save.data.oneTimed = oneTimed;
 		FlxG.save.data.downScroll = downScroll;
 		FlxG.save.data.middleScroll = middleScroll;
 		FlxG.save.data.opponentStrums = opponentStrums;
@@ -141,6 +146,9 @@ class ClientPrefs {
 	}
 
 	public static function loadPrefs() {
+		if(FlxG.save.data.oneTimed != null) {
+			oneTimed = FlxG.save.data.oneTimed;
+		}
 		if(FlxG.save.data.downScroll != null) {
 			downScroll = FlxG.save.data.downScroll;
 		}
