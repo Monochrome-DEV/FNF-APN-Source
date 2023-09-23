@@ -1,7 +1,7 @@
 package;
 
 import flixel.graphics.FlxGraphic;
-import flixel.FlxG;
+
 import flixel.FlxGame;
 import flixel.FlxState;
 import openfl.Assets;
@@ -11,9 +11,10 @@ import openfl.display.Sprite;
 import openfl.events.Event;
 import openfl.display.StageScaleMode;
 import lime.app.Application;
+import states.TitleState;
 
-#if desktop
-import Discord.DiscordClient;
+#if linux
+import lime.graphics.Image;
 #end
 
 //crash handler stuff
@@ -25,8 +26,6 @@ import sys.FileSystem;
 import sys.io.File;
 import sys.io.Process;
 #end
-
-using StringTools;
 
 class Main extends Sprite
 {
@@ -87,6 +86,8 @@ class Main extends Sprite
 			game.height = Math.ceil(stageHeight / game.zoom);
 		}
 	
+		#if LUA_ALLOWED Lua.set_callbacks_function(cpp.Callable.fromStaticFunction(psychlua.CallbackHandler.call)); #end
+		Controls.instance = new Controls();
 		ClientPrefs.loadDefaultKeys();
 		addChild(new FlxGame(game.width, game.height, game.initialState, #if (flixel < "5.0.0") game.zoom, #end game.framerate, game.framerate, game.skipSplash, game.startFullscreen));
 
@@ -96,8 +97,13 @@ class Main extends Sprite
 		Lib.current.stage.align = "tl";
 		Lib.current.stage.scaleMode = StageScaleMode.NO_SCALE;
 		if(fpsVar != null) {
-			fpsVar.visible = ClientPrefs.showFPS;
+			fpsVar.visible = ClientPrefs.data.showFPS;
 		}
+		#end
+
+		#if linux
+		var icon = Image.fromFile("icon.png");
+		Lib.current.stage.window.setIcon(icon);
 		#end
 
 		#if html5
@@ -110,13 +116,29 @@ class Main extends Sprite
 		#end
 
 		#if desktop
-		if (!DiscordClient.isInitialized) {
-			DiscordClient.initialize();
-			Application.current.window.onClose.add(function() {
-				DiscordClient.shutdown();
-			});
-		}
+		DiscordClient.start();
 		#end
+
+		// shader coords fix
+		FlxG.signals.gameResized.add(function (w, h) {
+		     if (FlxG.cameras != null) {
+			   for (cam in FlxG.cameras.list) {
+				@:privateAccess
+				if (cam != null && cam._filters != null)
+					resetSpriteCache(cam.flashSprite);
+			   }
+		     }
+
+		     if (FlxG.game != null)
+			 resetSpriteCache(FlxG.game);
+		});
+	}
+
+	static function resetSpriteCache(sprite:Sprite):Void {
+		@:privateAccess {
+		        sprite.__cacheBitmap = null;
+			sprite.__cacheBitmapData = null;
+		}
 	}
 
 	// Code was entirely made by sqirra-rng for their fnf engine named "Izzy Engine", big props to them!!!
